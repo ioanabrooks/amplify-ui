@@ -5,7 +5,6 @@ on: [push]
 jobs:
   build:
     runs-on: macos-latest
-    timeout-minutes: 15
     
     steps:
       - name: Checkout
@@ -26,11 +25,7 @@ jobs:
         run: yarn detox clean-framework-cache && yarn detox build-framework-cache
 
       - name: Install e2e packages
-        uses: ./.github/actions/install-with-retries
-        with:
-          no-lockfile: true
-          working-directory: ./packages/e2e
-          skip-cypress-binary: true
+        run: yarn e2e install --no-lockfile --network-timeout 60000
 
       - name: Cache CocoaPods
         uses: actions/cache@v3

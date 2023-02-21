@@ -17,12 +17,14 @@ jobs:
         if: steps.cache.outputs.cache-hit == 'true'
         run: yarn detox clean-framework-cache && yarn detox build-framework-cache
 
-      - name: Install packages
+      - name: Install e2e packages
         uses: ./.github/actions/install-with-retries
         with:
+          no-lockfile: true
+          working-directory: ./e2e
           skip-cypress-binary: true
 
-      - name: Cache Pods
+      - name: Cache CocoaPods
         uses: actions/cache@v3
         id: podcache
         with:
@@ -31,10 +33,9 @@ jobs:
           restore-keys: |
                         pods-${{ hashFiles('examples/react-native/ios/Podfile.lock') }}
                         pods-
-          timeout-minutes: 5
         continue-on-error: true
     
-      - name: Update Pods
+      - name: Update CocoaPods
         run: |
           gem update cocoapods xcodeproj
           cd examples/react-native/ios && pod install && cd ..

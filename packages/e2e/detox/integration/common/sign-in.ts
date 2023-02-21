@@ -1,7 +1,7 @@
 const { Given, Then, When } = require('@cucumber/cucumber');
 
-Given("I'm running the example {string}", () => {
-  console.log('testing');
+Given("I'm running the example {string}", (string) => {
+  console.log(`running example: ${string}`);
 });
 
 When('I type my "email" with status "CONFIRMED"', () => {

@@ -13,7 +13,9 @@
     "test:theme": "cypress run --spec 'features/ui/theme/*.feature'",
     "test:guides": "cypress run --spec 'features/ui/guides/*.feature'",
     "detox:build:ios": "detox build --configuration ios",
-    "detox:e2e:ios": "DETOX_CONFIGURATION=ios ./node_modules/.bin/cucumber-js"
+    "detox:e2e:ios": "DETOX_CONFIGURATION=ios ./node_modules/.bin/cucumber-js",
+    "detox:build:android": "detox build --configuration android",
+    "detox:e2e:android": "DETOX_CONFIGURATION=android ./node_modules/.bin/cucumber-js"
   },
   "cypress-cucumber-preprocessor": {
     "filterSpecs": true,

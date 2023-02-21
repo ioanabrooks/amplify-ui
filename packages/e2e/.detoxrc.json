@@ -8,7 +8,8 @@
     },
     "android": {
       "type": "android.apk",
-      "binaryPath": "SPECIFY_PATH_TO_YOUR_APP_BINARY"
+      "binaryPath": "../../examples/react-native/android/app/build/outputs/apk/debug/app-debug.apk",
+      "build": "cd ../../examples/react-native/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ../../.."
     }
   },
   "devices": {
@@ -29,6 +30,10 @@
     "ios": {
       "device": "simulator",
       "app": "ios"
+    },
+    "android": {
+      "device": "emulator",
+      "app": "android"
     }
   }
 }

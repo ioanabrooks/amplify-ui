@@ -1,0 +1,21 @@
+const { Given, Then, When } = require('@cucumber/cucumber');
+
+Given("I'm running the example {string}", () => {
+  console.log('testing');
+});
+
+When('I type my "email" with status "CONFIRMED"', () => {
+  console.log('typing email');
+});
+
+When('I type my password', () => {
+  console.log('typing pwd');
+});
+
+When('I click the "Sign in" button', () => {
+  console.log('clicking ');
+});
+
+Then('I see "Sign out"', () => {
+  console.log('seeing ');
+});

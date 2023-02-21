@@ -25,7 +25,7 @@ jobs:
         run: npm run detox clean-framework-cache && npm run detox build-framework-cache
 
       - name: Install e2e packages
-        run: cd packages/e2e && npm install --no-lockfile --network-timeout 60000 && cd ../..
+        run: npm install --no-package-lock
 
       - name: Cache CocoaPods
         uses: actions/cache@v3

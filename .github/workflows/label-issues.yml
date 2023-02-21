@@ -22,5 +22,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+        # sanitize issue number and add label
         run: |
-          gh issue edit $ISSUE_NUMBER --add-label 'pending-triage'
+          ISSUE_NUMBER_INT=$(echo "$ISSUE_NUMBER" | tr -d '\n' | awk '{print int($0)}')
+          if [ "$ISSUE_NUMBER_INT" -le 0 ]; then
+            echo "Issue number must be a positive integer"
+            exit 1
+          fi
+          gh issue edit $ISSUE_NUMBER_INT --add-label 'pending-triage'

@@ -17,9 +17,10 @@ jobs:
         if: steps.cache.outputs.cache-hit == 'true'
         run: yarn detox clean-framework-cache && yarn detox build-framework-cache
 
-      - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install
+      - name: Install packages
+        uses: ./.github/actions/install-with-retries
+        with:
+          skip-cypress-binary: true
 
       - name: Cache Pods
         uses: actions/cache@v3

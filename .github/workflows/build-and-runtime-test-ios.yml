@@ -26,13 +26,13 @@ jobs:
         uses: actions/cache@v3
         id: podcache
         with:
-          path: ios/Pods
+          path: examples/react-native/ios/Pods
           key: pods-${{ hashFiles('**/Podfile.lock') }}
 
       - name: Update Pods
         run: |
           gem update cocoapods xcodeproj
-          cd ios && pod install && cd ..
+          cd examples/react-native/ios && pod install && cd ..
 
       - run: brew tap wix/brew
       - run: brew install applesimutils

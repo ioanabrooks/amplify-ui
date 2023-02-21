@@ -27,8 +27,13 @@ jobs:
         id: podcache
         with:
           path: examples/react-native/ios/Pods
-          key: pods-${{ hashFiles('**/Podfile.lock') }}
-
+          key: pods-${{ hashFiles('examples/react-native/ios/Podfile.lock') }}
+          restore-keys: |
+                        pods-${{ hashFiles('examples/react-native/ios/Podfile.lock') }}
+                        pods-
+          timeout-minutes: 5
+        continue-on-error: true
+    
       - name: Update Pods
         run: |
           gem update cocoapods xcodeproj

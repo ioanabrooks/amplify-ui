@@ -16,7 +16,7 @@ jobs:
       issues: write
 
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c #v3.3.0 https://github.com/actions/checkout/commit/ac593985615ec2ede58e132d2e21d2b1cbd6127c
       - name: Add pending-triage label
         shell: bash
         env:
@@ -30,3 +30,4 @@ jobs:
             exit 1
           fi
           gh issue edit $ISSUE_NUMBER_INT --add-label 'pending-triage'
+

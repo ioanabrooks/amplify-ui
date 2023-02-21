@@ -38,7 +38,7 @@ jobs:
       - name: Update CocoaPods
         run: |
           gem update cocoapods xcodeproj
-          cd examples/react-native/ios && pod install && cd ..
+          cd examples/react-native/ios && pod install && cd ../../..
 
       - run: brew tap wix/brew
       - run: brew install applesimutils

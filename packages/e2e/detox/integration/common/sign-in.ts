@@ -1,4 +1,4 @@
-const { Given, Then, When } = require('@cucumber/cucumber');
+import { Given, When, Then } from '@cucumber/cucumber';
 
 Given("I'm running the example {string}", (string) => {
   console.log(`running example: ${string}`);

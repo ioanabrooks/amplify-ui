@@ -1,0 +1,7 @@
+{
+  "default": {
+    "requireModule": ["ts-node/register"],
+    "require": ["detox/integration/**/*.ts"],
+    "paths": ["features/**/sign-in-with-email.feature"]
+  }
+}

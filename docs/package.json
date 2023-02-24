@@ -9,14 +9,15 @@
     "postflutter:build": "yarn flutter:copy",
     "flutter:clean": "rm -rf public/flutter/authenticator",
     "flutter:copy": "cp -r ./flutter/authenticator/build/web public/flutter/authenticator",
-    "build": "yarn build:props-tables && next build",
+    "build": "yarn heap && yarn build:props-tables && yarn heap && NODE_OPTIONS=\"--max-old-space-size=4096\" next build --debug",
     "build:props-tables": "node --require esbuild-register ./scripts/generate-props-tables-data.ts",
     "lint": "next lint",
     "postbuild": "yarn postbuild:sitemap && yarn test && yarn postbuild:previews",
     "postbuild:previews": "node --require esbuild-register ./scripts/generate-previews.ts",
     "postbuild:sitemap": "node --require esbuild-register ./scripts/generate-sitemap-robotstxt.ts",
     "start": "next start",
-    "test": "jest"
+    "test": "jest",
+    "heap": "node -e 'console.log(v8.getHeapStatistics())'"
   },
   "dependencies": {
     "@aws-amplify/ui-react": "4.3.8",
@@ -78,6 +79,7 @@
     "react-markdown": "^8.0.3",
     "sitemap-urls": "^3.0.0",
     "ts-jest": "^27",
-    "ts-morph": "^15.1.0"
+    "ts-morph": "^15.1.0",
+    "typescript": "^4.6.3"
   }
 }

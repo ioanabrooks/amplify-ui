@@ -627,6 +627,76 @@
     events "^3.1.0"
     tslib "^1.8.0"
 
+"@aws-amplify/ui-angular@^3.2.8":
+  version "3.2.8"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-angular/-/ui-angular-3.2.8.tgz#78ca5d65c6d13415a585c8363182cd44c990c76e"
+  integrity sha512-0Szg8eoWtqvYcRHbkKjxPoPEUAgoaF33sM2owiU11sA5im+iH2gZluUDWvmAu5WHv1GWYjUUDLDtAFwlx12tng==
+  dependencies:
+    "@aws-amplify/ui" "5.5.5"
+    classnames "2.3.1"
+    nanoid "3.1.31"
+    qrcode "1.5.0"
+    tslib "2.3.1"
+    xstate "^4.33.6"
+
+"@aws-amplify/ui-react-core@2.1.13":
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react-core/-/ui-react-core-2.1.13.tgz#c98beefbd3d1d58bde8947763863d9287d429111"
+  integrity sha512-jUzzULKM/0wQWuCoZKS6qc4zrqcGR7tgVcwTysBGJMjY5F8JJG0cTKR/1La+gUGPRT2W+/YiS62FwsD80ngysw==
+  dependencies:
+    "@aws-amplify/ui" "5.5.5"
+    "@xstate/react" "3.0.1"
+    lodash "4.17.21"
+    xstate "^4.33.6"
+
+"@aws-amplify/ui-react@4.3.8", "@aws-amplify/ui-react@^4.3.8":
+  version "4.3.8"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-4.3.8.tgz#8efe9c923cd020537388dc1d5bc88a889e6c5c7f"
+  integrity sha512-5aOX5/1aVVE7uuNQhTsgPtvdN7nti9Ytcq7G75tX9BoGXu7yxWfXIdUKQhk3B6mcL+P4iXahsSy9b3oQ006YSQ==
+  dependencies:
+    "@aws-amplify/ui" "5.5.5"
+    "@aws-amplify/ui-react-core" "2.1.13"
+    "@radix-ui/react-accordion" "1.0.0"
+    "@radix-ui/react-direction" "1.0.0"
+    "@radix-ui/react-dropdown-menu" "1.0.0"
+    "@radix-ui/react-slider" "1.0.0"
+    "@radix-ui/react-tabs" "1.0.0"
+    "@xstate/react" "3.0.0"
+    classnames "2.3.1"
+    deepmerge "4.2.2"
+    lodash "4.17.21"
+    mapbox-gl "1.13.1"
+    maplibre-gl "2.1.9"
+    maplibre-gl-js-amplify "3.0.2"
+    qrcode "1.5.0"
+    react-generate-context "1.0.1"
+    react-map-gl "7.0.15"
+    tinycolor2 "1.4.2"
+    tslib "2.4.1"
+
+"@aws-amplify/ui-vue@^3.1.8":
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-vue/-/ui-vue-3.1.8.tgz#af80bfccd323d505d21dcd29fd5aacbcd962d713"
+  integrity sha512-HQeAT+AR5Ol5HyOqL6T8aJ+/cPG7CgkSGBNIZXQ6h5AjwPyVqaYkSzILcmBo7ab/dQAvKaQPd9jH6vGeJnB+kA==
+  dependencies:
+    "@aws-amplify/ui" "5.5.5"
+    "@vue/tsconfig" "^0.1.3"
+    "@vueuse/core" "7.5.5"
+    "@xstate/vue" "0.8.1"
+    nanoid "3.1.31"
+    qrcode "1.5.0"
+    xstate "^4.33.6"
+
+"@aws-amplify/ui@5.5.5":
+  version "5.5.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui/-/ui-5.5.5.tgz#c57906eec90c2aac8192de6a99faf18a00afc624"
+  integrity sha512-l4YECWJ72ZtottroyZ5ZZnxYT4QuoTKzZofg6ic/XAMH6pjUCtqNiqp0+K0tEqN7UlKQd1ggPkdMSpgsbaaEUQ==
+  dependencies:
+    csstype "^3.1.1"
+    lodash "4.17.21"
+    style-dictionary "3.7.1"
+    tslib "2.4.1"
+
 "@aws-amplify/xr@4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@aws-amplify/xr/-/xr-4.0.1.tgz#4a7964790f478afe7b655216a013507d41466d69"
@@ -19153,6 +19223,22 @@ maplibre-gl-js-amplify@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/maplibre-gl-js-amplify/-/maplibre-gl-js-amplify-3.0.0.tgz#ca681fd3c876dad9215c188021808790f2d51b61"
   integrity sha512-mqDD0cJyc/JJ6mhMrbl6VU+/YHUKxHbI+22ZkXB34taYZR2+TBIwvHrcnb/p+Z4HilVC2NgY44ldpanZiHZX/g==
+  dependencies:
+    "@mapbox/mapbox-gl-draw" "^1.3.0"
+    "@maplibre/maplibre-gl-geocoder" "^1.5.0"
+    "@turf/along" "^6.5.0"
+    "@turf/circle" "^6.5.0"
+    "@turf/distance" "^6.5.0"
+    "@turf/helpers" "^6.5.0"
+    "@turf/length" "^6.5.0"
+    "@turf/line-slice" "^6.5.0"
+    debounce "^1.2.1"
+    maplibre-gl-draw-circle "^0.1.1"
+
+maplibre-gl-js-amplify@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/maplibre-gl-js-amplify/-/maplibre-gl-js-amplify-3.0.2.tgz#ccb7f97e4ec31ca0c0dc287b11fb739d45131f86"
+  integrity sha512-zCnpB6jPKvROLa45yqNkliffrHWu6Z2hZCLVk098/BeWEJjU54eBTxEgezGkIKdD/qPTohq6tf9t/6SEWYsOQA==
   dependencies:
     "@mapbox/mapbox-gl-draw" "^1.3.0"
     "@maplibre/maplibre-gl-geocoder" "^1.5.0"

@@ -1,0 +1,60 @@
+name: Build and Runtime Test Maestro iOS
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 2
+
+      - name: Install e2e packages
+        run: yarn workspace e2e install --no-lockfile --network-timeout 60000
+        
+      #- run: curl -Ls "https://get.maestro.mobile.dev" | bash
+      #- run: export PATH="$PATH":"$HOME/.maestro/bin"\
+      
+      - name: Cache CocoaPods
+        uses: actions/cache@v3
+        id: podcache
+        with:
+          path: examples/react-native/ios/Pods
+          key: pods-${{ hashFiles('examples/react-native/ios/Podfile.lock') }}
+          restore-keys: |
+                        pods-${{ hashFiles('examples/react-native/ios/Podfile.lock') }}
+                        pods-
+        continue-on-error: true
+    
+      - name: Update CocoaPods
+        run: |
+          gem update cocoapods xcodeproj
+          cd examples/react-native/ios && pod install && cd ../../..
+          
+      - name: Install Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
+          
+      - run: xcodebuild -workspace examples/react-native/ios/ReactNative.xcworkspace -scheme ReactNative -configuration Debug -sdk iphonesimulator -arch x86_64 -derivedDataPath examples/react-native/ios/build
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.2.3
+        with:
+          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          app-file: "examples/react-native/ios/build/Build/Products/Debug-iphonesimulator/ReactNative.app"
+    
+    
+      #- run: brew install maestro
+      #- run: brew tap facebook/fb
+      #- run: brew install facebook/fb/idb-companion
+      #- run: maestro test packages/e2e/maestro/flow.yaml

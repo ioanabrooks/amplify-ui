@@ -26,6 +26,7 @@ jobs:
           export PATH="$PATH":"$HOME/.maestro/bin"
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
+          xcrun simctl boot "iPhone 14 Pro"
           maestro test .maestro/flow.yaml
       
 #       - name: Install e2e packages

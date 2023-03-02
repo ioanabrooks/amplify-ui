@@ -1,4 +1,4 @@
-name: Build and Runtime Test Maestro iOS
+name: Build and Runtime Test Maestro CLI iOS
 
 on: [push]
 
@@ -26,7 +26,7 @@ jobs:
           export PATH="$PATH":"$HOME/.maestro/bin"
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
-          maestro test ./maestro/flow.yaml
+          maestro test .maestro/flow.yaml
       
 #       - name: Install e2e packages
 #         run: yarn workspace e2e install --no-lockfile --network-timeout 60000

@@ -1,0 +1,49 @@
+name: Build and Runtime Test Maestro iOS
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 2
+
+      - name: Install Maestro cli and dependencies
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          export PATH="$PATH":"$HOME/.maestro/bin"
+          brew tap facebook/fb
+          brew install facebook/fb/idb-companion
+          maestro test ./maestro/flow.yaml
+      
+#       - name: Install e2e packages
+#         run: yarn workspace e2e install --no-lockfile --network-timeout 60000
+        
+      
+#       - name: Cache CocoaPods
+#         uses: actions/cache@v3
+#         id: podcache
+#         with:
+#           path: examples/react-native/ios/Pods
+#           key: pods-${{ hashFiles('examples/react-native/ios/Podfile.lock') }}
+#           restore-keys: |
+#                         pods-${{ hashFiles('examples/react-native/ios/Podfile.lock') }}
+#                         pods-
+#         continue-on-error: true
+    
+#       - name: Update CocoaPods
+#         run: |
+#           gem update cocoapods xcodeproj
+#           cd examples/react-native/ios && pod install && cd ../../..

@@ -34,7 +34,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            await github.rest.issues.removeLabel({ owner: ${{ env.REPO_OWNER}}, repo: ${{env.REPO_NAME}}, issue_number: ${{env.ISSUE_NUMBER}}, name: ${{env.LABEL_NAME}} })
+            await github.rest.issues.removeLabel({ owner: ${{ env.REPO_OWNER}}, repo: ${{env.REPO_NAME}}, issue_number: $ISSUE_NUMBER, name: ${{env.LABEL_NAME}} })
 
       - name: Checkout
         uses: actions/checkout@v3

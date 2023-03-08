@@ -25,8 +25,7 @@ jobs:
     steps:
       - name: Print
         run: |
-          console.log(JSON.stringify(github.event))
-          console.log(JSON.stringify(github.event.repository))
+          echo "event: ${{ github.event }}"
           
       - name: Remove run-codeql label, if applicable
         if: github.event.label.name == 'run-codeql'

@@ -24,10 +24,9 @@ jobs:
 
     steps:
       - name: Print
-        with:
-          script: |
-            console.log(JSON.stringify(github.event))
-            console.log(JSON.stringify(github.event.repository))
+        run: |
+          console.log(JSON.stringify(github.event))
+          console.log(JSON.stringify(github.event.repository))
           
       - name: Remove run-codeql label, if applicable
         if: github.event.label.name == 'run-codeql'

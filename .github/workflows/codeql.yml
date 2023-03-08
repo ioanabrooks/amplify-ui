@@ -31,7 +31,7 @@ jobs:
         if: github.event.label.name == 'run-codeql'
         env:
           ISSUE_NUMBER: ${{ github.event.pull_request.number }}
-          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_OWNER: ${{ github.event.repository.owner }}
           REPO_NAME: ${{ github.event.repository.name }}
           LABEL_NAME: 'run-codeql'
         uses: actions/github-script@98814c53be79b1d30f795b907e553d8679345975 # v6.4.0 https://github.com/actions/github-script/commit/98814c53be79b1d30f795b907e553d8679345975

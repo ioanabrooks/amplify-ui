@@ -23,6 +23,8 @@ jobs:
         language: [javascript]
 
     steps:
+      - name: Print
+        run: env | sort
           
       - name: Remove run-codeql label, if applicable
         env:

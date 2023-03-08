@@ -23,10 +23,6 @@ jobs:
         language: [javascript]
 
     steps:
-      - name: Debug
-        run: |
-          echo "issue number: ${{ github.event.issue.number }}" 
-          echo "PR number: ${{ github.event.pull_request.number }}" 
           
       - name: Remove run-codeql label, if applicable
         
@@ -40,7 +36,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { ISSUE_NUMBER, REPO_OWNER, REPO_NAME, LABEL_NAME } = process.env
-            github.rest.issues.removeLabel({ owner: REPO_OWNER, repo: REPO_NAME, ISSUE_NUMBER, name: LABEL_NAME })
+            github.rest.issues.removeLabel({ owner: REPO_OWNER, repo: REPO_NAME, issue_number: ISSUE_NUMBER, name: LABEL_NAME })
 
       - name: Checkout
         uses: actions/checkout@v3

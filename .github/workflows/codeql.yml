@@ -26,12 +26,13 @@ jobs:
       - name: Debug
         run: |
           echo "issue number: ${{ github.event.issue.number }}" 
+          echo "PR number: ${{ github.event.pull_request.number }}" 
           
       - name: Remove run-codeql label, if applicable
         
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ context.issue.number }}
+          ISSUE_NUMBER: ${{ github.event.pull_request.number }}
           LABEL_NAME: 'run-codeql'
         if: github.event.label.name == ${{env.LABEL_NAME}}
         run: |

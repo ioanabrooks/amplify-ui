@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           LABEL_NAME: 'run-codeql'
-        if: github.event.label.name == $LABEL_NAME
+        if: github.event.label.name == ${{env.LABEL_NAME}}
         run: |
           gh issue edit $ISSUE_NUMBER --add-label $LABEL_NAME
 

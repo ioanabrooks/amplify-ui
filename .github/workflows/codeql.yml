@@ -39,12 +39,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { ISSUE_NUMBER, owner, repo, label_name } = process.env
-            console.log(`issue_number: ${ISSUE_NUMBER}`)
-            console.log(`owner: ${owner}`)
-            console.log(`repo: ${repo}`)
-            console.log(`label_name: ${label_name}`)
-            github.rest.issues.removeLabel({ owner, repo, issue_number, name: label_name })
+            const { ISSUE_NUMBER, REPO_OWNER, REPO_NAME, LABEL_NAME } = process.env
+            github.rest.issues.removeLabel({ owner: REPO_OWNER, repo: REPO_NAME, issue_number, name: LABEL_NAME })
 
       - name: Checkout
         uses: actions/checkout@v3

@@ -34,10 +34,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(JSON.stringify(process.env))
-            const { issue_number, owner, repo, label_name } = process.env
-            console.log(`issue_number: ${issue_number}`)
-            await github.rest.issues.removeLabel({ owner, repo, issue_number, name: label_name })
+            await github.rest.issues.removeLabel({ owner: ${{ env.REPO_OWNER}}, repo: ${{env.REPO_NAME}}, issue_number: ${{env.ISSUE_NUMBER}}, name: ${{env.LABEL_NAME}} })
 
       - name: Checkout
         uses: actions/checkout@v3

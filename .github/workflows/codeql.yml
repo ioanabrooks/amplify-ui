@@ -39,8 +39,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { issue_number, owner, repo, label_name } = process.env
-            console.log(`issue_number: ${issue_number}`)
+            const { ISSUE_NUMBER, owner, repo, label_name } = process.env
+            console.log(`issue_number: ${ISSUE_NUMBER}`)
             console.log(`owner: ${owner}`)
             console.log(`repo: ${repo}`)
             console.log(`label_name: ${label_name}`)

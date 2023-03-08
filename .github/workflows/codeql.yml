@@ -34,7 +34,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { issue_number, owner, repo, label_name } = process.env
+            const { issue_number, owner, repo, label_name } = env
             github.rest.issues.removeLabel({ owner, repo, issue_number, name: label_name })
 
       - name: Checkout

@@ -27,6 +27,7 @@ jobs:
         run: env | sort
           
       - name: Remove run-codeql label, if applicable
+        if: github.event.label.name == 'run-codeql'
         env:
           ISSUE_NUMBER: ${{ github.event.pull_request.number }}
           REPO_OWNER: ${{ github.repository_owner }}
@@ -37,7 +38,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { ISSUE_NUMBER, REPO_OWNER, REPO_NAME, LABEL_NAME } = process.env
-            console.log(`event: ${github.event}`)
+            console.log(JSON.stringify(github.event))
             github.rest.issues.removeLabel({ owner: REPO_OWNER, repo: REPO_NAME, issue_number: ISSUE_NUMBER, name: LABEL_NAME })
 
       - name: Checkout

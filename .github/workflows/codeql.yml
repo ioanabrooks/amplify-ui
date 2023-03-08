@@ -31,11 +31,11 @@ jobs:
         
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ context.issue.number }}
           LABEL_NAME: 'run-codeql'
         if: github.event.label.name == ${{env.LABEL_NAME}}
         run: |
-          gh issue edit $ISSUE_NUMBER --add-label $LABEL_NAME
+          gh issue edit $ISSUE_NUMBER --remove-label $LABEL_NAME
 
       - name: Checkout
         uses: actions/checkout@v3

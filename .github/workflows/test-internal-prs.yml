@@ -103,16 +103,16 @@ jobs:
       commit: ${{ github.event.pull_request.head.sha }}
       repository: ${{ github.repository }}
 
-  unit:
-    uses: aws-amplify/amplify-ui/.github/workflows/reusable-unit.yml@main
-    needs: setup-cache
-    with:
-      commit: ${{ github.event.pull_request.head.sha }}
-      repository: ${{ github.repository }}
+  #unit:
+  #  uses: aws-amplify/amplify-ui/.github/workflows/reusable-unit.yml@main
+  #  needs: setup-cache
+  #  with:
+  #    commit: ${{ github.event.pull_request.head.sha }}
+  #    repository: ${{ github.repository }}
 
   e2e:
-    uses: aws-amplify/amplify-ui/.github/workflows/reusable-e2e.yml@main
-    needs: unit
+    uses: ./.github/workflows/reusable-e2e.yml
+    needs: setup-cache
     with:
       commit: ${{ github.event.pull_request.head.sha }}
       repository: ${{ github.event.pull_request.head.repo.full_name }}

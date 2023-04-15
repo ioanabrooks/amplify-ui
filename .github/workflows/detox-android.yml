@@ -17,6 +17,9 @@ jobs:
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "system-images;android-31;default;x86_64"
           $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --name Pixel_2_API_31 --device "pixel_2" -k "system-images;android-31;default;x86_64"
 
+     - name: List avds
+       run: emulator -list-avds
+       
      - name: Launch emulator
        run: |
           $ANDROID_HOME/emulator/emulator -avd Pixel_2_API_31 -no-window -no-audio &

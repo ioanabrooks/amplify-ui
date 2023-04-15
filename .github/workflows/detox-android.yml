@@ -15,6 +15,9 @@ jobs:
        run: |
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install emulator
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "system-images;android-31;default;x86_64"
-          $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n Pixel_2_API_31 -d pixel --package "system-images;android-31;default;x86_64"
+          $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --name Pixel_2_API_31 --device "pixel_2" 
+
+     - name: Launch emulator
+       run: |
           $ANDROID_HOME/emulator/emulator -avd Pixel_2_API_31 -no-window -no-audio &
           adb wait-for-device

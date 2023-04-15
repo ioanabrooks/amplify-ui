@@ -1,0 +1,18 @@
+name: POC e2e Detox Android
+
+on: push
+
+jobs:
+  e2e:
+    # Only run e2e tests if unit tests pass
+    runs-on: ubuntu-latest
+    environment: ci
+    env:
+      NODE_ENV: test
+      
+    steps:  
+     - name: Install emulator
+       run: |
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install emulator
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "system-images;android-31;default;x86_64"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list

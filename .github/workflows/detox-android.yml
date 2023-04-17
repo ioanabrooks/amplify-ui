@@ -11,17 +11,27 @@ jobs:
       NODE_ENV: test
       
     steps:  
-     - name: Install emulator
-       run: |
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install emulator
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "system-images;android-31;default;x86_64"
-          $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --name Pixel_2_API_31 --device "pixel_2" -k "system-images;android-31;default;x86_64"
+      - name: Install emulator
+        run: |
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-27;default;x86_64"
+          echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager --verbose create avd --force --name Pixel_2_API_31 --device "pixel_2" --package "system-images;android-27;default;x86_64"
 
-     - name: List avds
-       run: $ANDROID_HOME/emulator/emulator -list-avds
+      - name: Start Android emulator
+        run: |
+          nohup $ANDROID_HOME/tools/emulator  -verbose -avd Pixel_2_API_31 -gpu host -wipe-data -qemu -m 2048 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          $ANDROID_HOME/platform-tools/adb devices
+          sleep 45
+          screencapture screenshot.jpg
+          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+          
+      - name: Upload emulator screenshot
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2 https://github.com/actions/upload-artifact/commit/0b7f8abb1508181956e8e162db84b466c27e18ce
+        with:
+          name: android-e2e-emulator
+          path: |
+            emulator.png
+          retention-days: 5
+
        
-     - name: Launch emulator
-       run: |
-          $ANDROID_HOME/emulator/emulator -avd Pixel_2_API_31 -no-snapshot -no-window -no-audio -gpu auto -no-boot-anim &
-          adb wait-for-device
-          adb shell input keyevent 82 &
+

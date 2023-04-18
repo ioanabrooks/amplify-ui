@@ -18,7 +18,7 @@ jobs:
       
       - name: Start iOS simulators
         run: |
-          xcrun simctl boot "iPhone 13"
-          xcrun simctl boot "iPhone 13 2"
-          xcrun simctl boot "iPhone 13 3"
+          xcrun simctl boot "iPhone_Test_1" "iPhone 13"
+          xcrun simctl boot "iPhone_Test_2" "iPhone 13"
+          xcrun simctl boot "iPhone_Test_3" "iPhone 13"
          

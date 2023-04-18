@@ -1,0 +1,24 @@
+name: POC e2e Detox iOS
+
+on: push
+
+jobs:
+  e2e:
+    # Only run e2e tests if unit tests pass
+    runs-on: macos-latest
+    environment: ci
+    env:
+      NODE_ENV: test
+      
+    steps:  
+      - name: Install simulator
+        run: |
+          brew tap wix/brew
+          brew install applesimutils
+      
+      - name: Start iOS simulators
+        run: |
+          xcrun simctl boot "iPhone 13"
+          xcrun simctl boot "iPhone 13 2"
+          xcrun simctl boot "iPhone 13 3"
+         

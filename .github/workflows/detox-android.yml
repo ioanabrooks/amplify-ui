@@ -19,7 +19,7 @@ jobs:
 
       - name: Check HW acceleration
         run: |
-         apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+         sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
           
       - name: Start Android emulator
         run: |

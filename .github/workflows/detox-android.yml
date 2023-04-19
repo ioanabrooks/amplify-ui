@@ -18,7 +18,7 @@ jobs:
 
       - name: Start Android emulator
         run: |
-          nohup $ANDROID_HOME/tools/emulator  -verbose -avd Pixel_5_API_27 -gpu host -wipe-data -qemu -m 2048 &
+          nohup $ANDROID_HOME/tools/emulator -verbose -avd Pixel_5_API_27 -no-window -no-boot-anim -no-audio -no-snapshot-load -gpu host -accel on -qemu -m 2048 &
           $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
           $ANDROID_HOME/platform-tools/adb devices
           sleep 45

@@ -19,6 +19,14 @@ jobs:
           commit: ${{ github.event.pull_request.head.sha }}
           packages: 'packages/react-native,packages/react-core,packages/ui'
 
+  debug:
+    needs: check-changed-packages 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug
+        run: |
+         echo "has-changed-packages: ${{ needs.check-changed-packages.outputs.has-changed-packages }}"
+  
   e2e-ios:
     needs: check-changed-packages 
     if: ${{ needs.check-changed-packages.outputs.has-changed-packages == 'true' }}

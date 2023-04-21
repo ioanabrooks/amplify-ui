@@ -25,7 +25,7 @@ runs:
         echo "Changed files: ${changed_files}"
         
         # stores package names concatenated with pipe
-        packages=$(echo "${{ inputs.packages }}" | sed 's/\s/|/g')      
+        packages=$(echo "${{ inputs.packages }}" | sed 's/,/|/g')     
 
         echo "packages: ${packages}"
         

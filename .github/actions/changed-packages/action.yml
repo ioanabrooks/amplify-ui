@@ -23,8 +23,15 @@ runs:
 
         changed_files=$(echo git diff --name-only ${{ inputs.commit }}~..${{ inputs.commit }})
 
+        echo "Changed files: ${changed_files}"
+        
         # stores package names concatenated with pipe
         packages=$(echo "${{ inputs.packages }}" | sed 's/\s/|/g')      
+
+        echo "packages: ${packages}"
+        
+        has_changed_packages=$(echo "$changed_files" | grep -Eq "^($packages)/"; echo $?)
+        echo "Changed packages: $has_changed_packages"
 
         if echo "$changed_files" | grep -Eq "^($packages)/"; then
           echo "has-changed-packages=true" >> $GITHUB_OUTPUT

@@ -26,7 +26,10 @@ runs:
         # stores package names concatenated with pipe
         packages=$(echo "${{ inputs.packages }}" | sed 's/,/|/g')      
 
-        if echo "$changed_files" | grep -Eq "^($packages)/"; then
+        has_changed_packages=$(echo "$changed_files" | grep -Eq "^($packages)/"; echo $?)
+        echo "Changed packages: $has_changed_packages"
+        
+        if [ $has_changed_packages -eq 1 ]; then
           echo "has-changed-packages=true" >> $GITHUB_OUTPUT
         else
           echo "has-changed-packages=false" >> $GITHUB_OUTPUT

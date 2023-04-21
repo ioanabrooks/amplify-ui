@@ -5,7 +5,7 @@ inputs:
     description: 'Commit to check files against'
     required: true
   packages:
-    description: 'List of packages to check for changes'
+    description: 'List of packages to check for changes, separated by comma'
     required: true
 outputs:
   any-package-changed:
@@ -24,7 +24,7 @@ runs:
         changed_files=$(echo git diff --name-only ${{ inputs.commit }}~..${{ inputs.commit }})
 
         # stores package names concatenated with pipe
-        packages=$(echo "${{ inputs.packages }}" | sed 's/\s/|/g')      
+        packages=$(echo "${{ inputs.packages }}" | sed 's/,/|/g')      
 
         if echo "$changed_files" | grep -Eq "^($packages)/"; then
           echo "has-changed-packages=true" >> $GITHUB_OUTPUT

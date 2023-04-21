@@ -21,7 +21,7 @@ runs:
         # stores the names of changed packages
         changed_packages=()
 
-        changed_files=$(git diff --name-only ${{ inputs.commit }}~..${{ inputs.commit }})
+        changed_files=$(git diff --name-only ${{ inputs.commit }}
         echo "changed_files: ${changed_files}"
 
         # stores package names concatenated with pipe

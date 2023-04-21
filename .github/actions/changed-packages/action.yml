@@ -32,7 +32,7 @@ runs:
         has_changed_packages=$(echo "$changed_files" | grep -Eq "^($packages)/"; echo $?)
         echo "Changed packages: $has_changed_packages"
 
-        if (has_changed_packages == 1) then
+        if ($has_changed_packages == 1) then
           echo "true"
           echo "has-changed-packages=true" >> $GITHUB_OUTPUT
         else

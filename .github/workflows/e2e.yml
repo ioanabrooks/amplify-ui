@@ -1,32 +1,33 @@
-on: pull_request
+name: Check Changed Packages
+description: 'Checks whether any files in the specified packages were changed in the current commit'
+inputs:
+  commit:
+    description: 'Commit to check files against'
+    required: true
+  packages:
+    description: 'List of packages to check for changes, separated by comma'
+    required: true
+outputs:
+  any-package-changed:
+    description: 'Boolean indicating whether any packages were changed'
+    value: ${{ steps.check-changed-packages.outputs.has-changed-packages}}
+runs:
+  using: 'composite'
+  steps:
+    - name: Determine if there were changes in the given packages
+      shell: bash
+      id: check-changed-packages
+      run: |
+        # stores the names of changed packages
+        changed_packages=()
 
-jobs:
-  check-changed-packages:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Amplify UI
-        uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0 https://github.com/actions/checkout/commit/24cb9080177205b6e8c946b17badbe402adc938f
-        with:
-          # For `pull_request_target`, we want ref to point to `pull_request.head.ref` because `github.ref`
-          # always points to the target branch.
-          # See: https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
-          ref: ${{ github.event.pull_request.head.sha }}
-          repository: ${{ github.repository }}
-          persist-credentials: false
+        changed_files=$(echo git diff --name-only ${{ inputs.commit }}~..${{ inputs.commit }})
 
-      - name: Determine changes
-        uses: ./.github/actions/changed-packages
-        with:
-          commit: ${{ github.event.pull_request.head.sha }}
-          packages: 'packages/react-native,packages/react-core,packages/ui'
+        # stores package names concatenated with pipe
+        packages=$(echo "${{ inputs.packages }}" | sed 's/,/|/g')      
 
-  e2e-ios:
-    needs: check-changed-packages 
-    if: ${{ needs.check-changed-packages.outputs.has-changed-packages == 'true' }}
-    runs-on: macos-latest
-    steps:
-      - name: Running ios e2e
-        run: |
-           echo "Running e2e tests, RN packages were modified!"
-        
-  
+        if echo "$changed_files" | grep -Eq "^($packages)/"; then
+          echo "has-changed-packages=true" >> $GITHUB_OUTPUT
+        else
+          echo "has-changed-packages=false" >> $GITHUB_OUTPUT
+        fi

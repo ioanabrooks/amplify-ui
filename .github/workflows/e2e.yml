@@ -15,7 +15,7 @@ jobs:
           persist-credentials: false
 
       - name: Determine changes
-        uses: ./.github/actions/changed-packages@main
+        uses: ./.github/actions/changed-packages
         with:
           commit: ${{ inputs.commit }}
           packages: 'packages/react-native,packages/react-core,packages/ui'

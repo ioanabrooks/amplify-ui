@@ -16,6 +16,7 @@ jobs:
           persist-credentials: false
 
       - name: Determine changes
+        id: has-rn-changed-packages
         uses: ./.github/actions/changed-packages
         with:
           commit: ${{ github.event.pull_request.head.sha }}

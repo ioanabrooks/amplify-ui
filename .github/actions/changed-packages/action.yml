@@ -22,9 +22,11 @@ runs:
         changed_packages=()
 
         changed_files=$(echo git diff --name-only ${{ inputs.commit }}~..${{ inputs.commit }})
+        echo "changed_files: $changed_files"
 
         # stores package names concatenated with pipe
-        packages=$(echo "${{ inputs.packages }}" | sed 's/,/|/g')      
+        packages=$(echo "${{ inputs.packages }}" | sed 's/,/|/g')     
+        echo "packages: $packages"
 
         has_changed_packages=$(echo "$changed_files" | grep -Eq "^($packages)/"; echo $?)
         echo "Changed packages: $has_changed_packages"

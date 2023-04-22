@@ -21,7 +21,10 @@ jobs:
         uses: ./.github/actions/changed-packages
         with:
           commit: ${{ github.event.pull_request.head.sha }}
-          packages: 'packages/react-native,packages/react-core,packages/ui'
+          packages: |
+            packages/react-native
+            packages/react-core
+            packages/ui
   
   e2e-ios:
     needs: check-changed-packages 

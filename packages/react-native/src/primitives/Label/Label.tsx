@@ -18,7 +18,7 @@ export default function Label({
 
   return (
     <Text {...rest} accessibilityRole={accessibilityRole} style={textStyle}>
-      {children}
+      {children} test
     </Text>
   );
 }

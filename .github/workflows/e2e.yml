@@ -22,14 +22,6 @@ jobs:
         with:
           commit: ${{ github.event.pull_request.head.sha }}
           packages: 'packages/react-native,packages/react-core,packages/ui'
-
-  debug:
-    needs: check-changed-packages 
-    runs-on: ubuntu-latest
-    steps:
-      - name: Debug
-        run: |
-         echo "has-changed-packages: ${{ needs.check-changed-packages.outputs.has-changed-packages }}"
   
   e2e-ios:
     needs: check-changed-packages 
@@ -38,4 +30,4 @@ jobs:
     steps:
       - name: Running ios e2e
         run: |
-           echo "Running e2e tests, RN packages were modified!"
+           echo "Running e2e tests, RN related packages were modified!"

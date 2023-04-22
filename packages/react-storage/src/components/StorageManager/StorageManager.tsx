@@ -169,7 +169,7 @@ function StorageManager({
   const onDeleteUpload = ({ id }: { id: string }) => {
     // At this time we don't know if the delete
     // permissions are enabled, so we do a soft delete
-    // from file list, but don't remove from storage
+    // from file list, but don't remove from storage test
     removeUpload({ id });
     if (typeof onFileRemove === 'function') {
       const file = files.find((file) => file.id === id);

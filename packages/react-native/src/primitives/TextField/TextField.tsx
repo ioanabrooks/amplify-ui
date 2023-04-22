@@ -69,7 +69,7 @@ export default function TextField({
         {endAccessory ?? null}
       </View>
       {error && errorMessage ? (
-        <Label style={errorMessageStyle}>{errorMessage}</Label>
+        <Label style={errorMessageStyle}>{errorMessage} test</Label>
       ) : null}
     </View>
   );

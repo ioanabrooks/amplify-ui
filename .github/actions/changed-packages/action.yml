@@ -30,7 +30,7 @@ runs:
 
         # concatenate package names with pipe
         package_names=$(echo "$PACKAGES" | sed 's/,/|/g')     
-        echo "packages: $packages"
+        echo "packages: $package_names"
 
         if echo "$changed_files" | grep -Eq "^($package_names)/"; then
           echo "has-changed-packages=true" >> $GITHUB_OUTPUT

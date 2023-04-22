@@ -185,7 +185,7 @@ function StorageManager({
       ? false
       : files.every((status) => status?.progress === 100);
 
-  // Displays if over max files test
+  // Displays if over max files test workflow
   const hasMaxFilesError =
     files.filter((file) => file.progress < 100).length > maxFileCount;
 

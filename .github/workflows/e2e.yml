@@ -1,8 +1,9 @@
 on: pull_request
-
 jobs:
   check-changed-packages:
     runs-on: ubuntu-latest
+    outputs:
+      has-changed-packages: ${{ steps.has-rn-changed-packages.outputs.has-changed-packages }}
     steps:
       - name: Checkout Amplify UI
         uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0 https://github.com/actions/checkout/commit/24cb9080177205b6e8c946b17badbe402adc938f
@@ -10,16 +11,21 @@ jobs:
           # For `pull_request_target`, we want ref to point to `pull_request.head.ref` because `github.ref`
           # always points to the target branch.
           # See: https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
-          ref: ${{ inputs.commit }}
-          repository: ${{ inputs.repository }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          repository: ${{ github.repository }}
           persist-credentials: false
+          fetch-depth: 2
 
       - name: Determine changes
-        uses: ./.github/actions/changed-packages@main
+        id: has-rn-changed-packages
+        uses: ./.github/actions/changed-packages
         with:
-          commit: ${{ inputs.commit }}
-          packages: 'packages/react-native,packages/react-core,packages/ui'
-
+          commit: ${{ github.event.pull_request.head.sha }}
+          packages: |
+            packages/react-native
+            packages/react-core
+            packages/ui
+  
   e2e-ios:
     needs: check-changed-packages 
     if: ${{ needs.check-changed-packages.outputs.has-changed-packages == 'true' }}
@@ -27,6 +33,4 @@ jobs:
     steps:
       - name: Running ios e2e
         run: |
-           echo "Running e2e tests, RN packages were modified!"
-        
-  
+           echo "Running e2e tests, RN related packages were modified!"

@@ -15,21 +15,24 @@ runs:
   using: 'composite'
   steps:
     - name: Determine if there were changes in the given packages
-      shell: bash
       id: check-changed-packages
+      shell: bash    
+      env:
+          COMMIT_HASH: ${{ inputs.commit }}
+          PACKAGES: ${{ inputs.packages }}
       run: |
         # stores the names of changed packages
         changed_packages=()
 
         $(git fetch origin main)
-        changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ inputs.commit }})
+        changed_files=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
         echo "changed_files: $changed_files"
 
-        # stores package names concatenated with pipe
-        packages=$(echo "${{ inputs.packages }}" | sed 's/,/|/g')     
+        # concatenate package names with pipe
+        package_names=$(echo "$PACKAGES" | sed 's/,/|/g')     
         echo "packages: $packages"
 
-        if echo "$changed_files" | grep -Eq "^($packages)/"; then
+        if echo "$changed_files" | grep -Eq "^($package_names)/"; then
           echo "has-changed-packages=true" >> $GITHUB_OUTPUT
         else
           echo "has-changed-packages=false" >> $GITHUB_OUTPUT

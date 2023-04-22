@@ -21,6 +21,7 @@ runs:
         # stores the names of changed packages
         changed_packages=()
 
+        $(git fetch origin main)
         changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ inputs.commit }})
         echo "changed_files: $changed_files"
 

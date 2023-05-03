@@ -19,7 +19,7 @@ jobs:
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-27;default;x86_64"
           echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager --verbose create avd --force --name Pixel_5_API_27 --device "pixel_5" --package "system-images;android-27;default;x86_64"
       - name: Check HW acceleration
-          run: |
+        run: |
             $ANDROID_HOME/tools/emulator -accel-check
       - name: Start Android emulator
         run: |

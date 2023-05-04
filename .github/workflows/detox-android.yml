@@ -20,7 +20,7 @@ jobs:
      
       - name: Start Android emulator
         run: |
-          nohup $ANDROID_HOME/tools/emulator -verbose -avd Pixel_5_API_27 -no-boot-anim -no-audio -no-snapshot-load -accel on -gpu swiftshader_indirect &
+          nohup $ANDROID_HOME/tools/emulator -verbose -avd Pixel_5_API_27 -no-boot-anim -no-audio -no-snapshot-load -accel on -gpu host -qemu -m 4096 &
           $ANDROID_HOME/platform-tools/adb wait-for-device
           $ANDROID_HOME/platform-tools/adb devices
           sleep 45

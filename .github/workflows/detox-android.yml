@@ -14,6 +14,7 @@ jobs:
       - name: Update build tools
         run: |
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'build-tools;33.0.2' platform-tools
+          xcrun simctl list devices
           
       - name: Install emulator
         run: |

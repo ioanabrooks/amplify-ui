@@ -5,37 +5,75 @@ on: push
 jobs:
   e2e:
     # Only run e2e tests if unit tests pass
-    runs-on: ubuntu-latest
+    runs-on: macos-13
     environment: ci
     env:
       NODE_ENV: test
       
     steps:  
+      - name: Update build tools
+        run: |
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'build-tools;33.0.2' platform-tools 'platforms;android-27' 'emulator'
           
       - name: Install emulator
         run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-27;default;x86_64"
-          echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager --verbose create avd --force --name Pixel_5_API_27 --device "pixel_5" --package "system-images;android-27;default;x86_64"
-
-      - name: Check HW acceleration
-        run: |
-         sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+          echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --force --name Pixel_5_API_27 --device "pixel_5" --abi x86_64 --package 'system-images;android-27;default;x86_64'
+          printf 'hw.ramSize=2048\n' >> ~/.android/avd/Pixel_5_API_27.avd/config.ini
+          printf 'hw.heapSize=576\n' >> ~/.android/avd/Pixel_5_API_27.avd/config.ini
           
       - name: Start Android emulator
         run: |
-          nohup $ANDROID_HOME/tools/emulator -verbose -avd Pixel_5_API_27 -gpu swiftshader_indirect -no-boot-anim -no-audio -no-snapshot-save -qemu -m 2048 &
-          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
-          $ANDROID_HOME/platform-tools/adb devices
-          sleep 45
-          screencapture screenshot.jpg
-          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+          nohup $ANDROID_HOME/emulator/emulator -avd Pixel_5_API_27 -port 5554 -verbose -no-boot-anim -no-audio -no-snapshot-load -read-only -no-window &      
+          nohup $ANDROID_HOME/emulator/emulator -avd Pixel_5_API_27 -port 5556 -verbose -no-boot-anim -no-audio -no-snapshot-load -read-only -no-window &      
           
+          $ANDROID_HOME/platform-tools/adb -s 'emulator-5554' wait-for-device shell  'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          
+          $ANDROID_HOME/platform-tools/adb -s 'emulator-5556' wait-for-device shell  'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+       
+       
+          $ANDROID_HOME/platform-tools/adb devices
+          sleep 15
+          $ANDROID_HOME/platform-tools/adb -s 'emulator-5554' exec-out screencap -p > emulator1.png
+          $ANDROID_HOME/platform-tools/adb -s 'emulator-5556' exec-out screencap -p > emulator2.png
+     
+#       - name: Start Android emulator
+#         run: |
+#           nohup $ANDROID_HOME/emulator/emulator -avd Pixel_5_API_28 -no-boot-anim -no-audio -no-snapshot-load -accel on -gpu host -cores 2 -qemu -m 4096 &
+#           #nohup $ANDROID_HOME/emulator/emulator -verbose -avd Pixel_5_API_28 -no-boot-anim -no-audio -no-window -accel off -gpu swiftshader_indirect &
+          
+#           $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+#           $ANDROID_HOME/platform-tools/adb devices
+#           sleep 45
+#           $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+
+#       - name: Install emulator
+#         run: |
+#             $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'build-tools;33.0.2' platform-tools
+#             # Install AVD files
+#             yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
+#             # Create emulator
+#             echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64' --force
+#             $ANDROID_HOME/emulator/emulator -list-avds
+ 
+
+#       - name: Start emulator
+#         run: |
+#           echo "Starting emulator and waiting for boot to complete..."
+#           nohup $ANDROID_HOME/emulator/emulator -avd Pixel_API_29_AOSP -no-snapshot -no-audio -no-boot-anim -camera-back none -camera-front none -accel on -gpu host -qemu -m 2048 > /dev/null 2>&1 &
+#           $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+#           echo "Emulator has finished booting"
+#           $ANDROID_HOME/platform-tools/adb devices
+#           $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+      
       - name: Upload emulator screenshot
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2 https://github.com/actions/upload-artifact/commit/0b7f8abb1508181956e8e162db84b466c27e18ce
         with:
           name: android-e2e-emulator
           path: |
-            emulator.png
+            emulator1.png
+            emulator2.png
           retention-days: 5
 
        

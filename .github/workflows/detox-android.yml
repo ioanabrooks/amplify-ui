@@ -14,8 +14,7 @@ jobs:
       - name: Update build tools
         run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'build-tools;33.0.2' platform-tools 'platforms;android-27'
-          xcrun simctl list devices
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install 'build-tools;33.0.2' platform-tools 'platforms;android-27' 'emulator'
           
       - name: Install emulator
         run: |
@@ -26,7 +25,9 @@ jobs:
           
       - name: Start Android emulator
         run: |
-          nohup $ANDROID_HOME/emulator/emulator -avd Pixel_5_API_27 -verbose -no-audio -read-only -no-window & 
+          nohup $ANDROID_HOME/emulator/emulator -avd Pixel_5_API_27 -verbose -no-boot-anim -no-audio -no-snapshot-load -read-only -no-window & 
+          nohup $ANDROID_HOME/emulator/emulator -avd Pixel_5_API_27 -verbose -no-boot-anim -no-audio -no-snapshot-load -read-only -no-window & 
+          
           $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
           $ANDROID_HOME/platform-tools/adb devices
           sleep 30

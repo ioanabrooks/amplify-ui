@@ -72,7 +72,8 @@ jobs:
         with:
           name: android-e2e-emulator
           path: |
-            emulator.png
+            emulator1.png
+            emulator2.png
           retention-days: 5
 
        

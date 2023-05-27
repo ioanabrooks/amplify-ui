@@ -35,7 +35,8 @@ jobs:
        
           $ANDROID_HOME/platform-tools/adb devices
           sleep 15
-          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+          $ANDROID_HOME/platform-tools/adb -s 'emulator-5554' exec-out screencap -p > emulator1.png
+          $ANDROID_HOME/platform-tools/adb -s 'emulator-5556' exec-out screencap -p > emulator2.png
      
 #       - name: Start Android emulator
 #         run: |

@@ -20,7 +20,6 @@ jobs:
           persist-credentials: false
 
       - name: Determine if there were changes to react-native packages
-        if: ${{ inputs.skip-changed-packages-check == 'false' }}
         id: has-rn-changed-packages
         uses: ./.github/actions/changed-packages
         with:

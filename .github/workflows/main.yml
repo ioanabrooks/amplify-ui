@@ -29,3 +29,12 @@ jobs:
             packages/react-core-notifications
             packages/ui
             packages/e2e
+
+  output-results:
+    needs: check-changed-packages
+    runs-on: ubuntu-latest
+    environment: ci
+    steps:
+     - name: Print out check-changed-packages result
+       run: |
+          echo ${{ needs.check-changed-packages.outputs.has-changed-packages }}

@@ -1,0 +1,31 @@
+name: Call Changed Packages
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+    
+jobs:
+  check-changed-packages:
+    runs-on: ubuntu-latest
+    outputs:
+      has-changed-packages: ${{ steps.has-rn-changed-packages.outputs.has-changed-packages }}
+    steps:
+      - name: Checkout Amplify UI
+        uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0 https://github.com/actions/checkout/commit/24cb9080177205b6e8c946b17badbe402adc938f
+        with:
+          repository: ${{ inputs.repository }}
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Determine if there were changes to react-native packages
+        if: ${{ inputs.skip-changed-packages-check == 'false' }}
+        id: has-rn-changed-packages
+        uses: ./.github/actions/changed-packages
+        with:
+          packages: |
+            packages/react-native
+            packages/react-core
+            packages/react-core-notifications
+            packages/ui
+            packages/e2e

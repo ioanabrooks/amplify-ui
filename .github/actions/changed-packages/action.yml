@@ -30,6 +30,9 @@ runs:
         changed_packages=false
         for COMMIT_HASH in $(git rev-list origin/main..origin/$PR_BRANCH); do
           changed_files=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
+          
+          echo "Changed files"
+          echo "$changed_files"
 
           # check if any of the modified files belongs to the specified input packages
           if echo "$changed_files" | grep -Eq "^($package_names)/"; then

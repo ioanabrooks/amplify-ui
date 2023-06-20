@@ -1,5 +1,4 @@
 name: Call Changed Packages
-
 on:
   pull_request:
     branches: [main]
@@ -20,6 +19,7 @@ jobs:
           persist-credentials: false
 
       - name: Determine if there were changes to react-native packages
+        if: ${{ inputs.skip-changed-packages-check == 'false' }}
         id: has-rn-changed-packages
         uses: ./.github/actions/changed-packages
         with:
@@ -30,7 +30,6 @@ jobs:
             packages/react-core-notifications
             packages/ui
             packages/e2e
-
   output-results:
     needs: check-changed-packages
     runs-on: ubuntu-latest

@@ -22,17 +22,23 @@ runs:
         PR_BRANCH: ${{ inputs.pr_branch }}
         PACKAGES: ${{ inputs.packages }}
       run: |
-        # stores the names of changed packages
-        changed_packages=()
-        changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main..origin/$PR_BRANCH)
-
         # concatenate input package names with pipe
         # input is on multiple lines so need :a;N;$!ba; to allow sed to read entire stream at once
         package_names=$(echo "$PACKAGES" | sed ':a;N;$!ba;s/\n/|/g')
+        
+        # stores the names of changed packages
+        changed_packages=false
+        for COMMIT_HASH in $(git rev-list origin/main..origin/$PR_BRANCH); do
+          changed_files=$(git diff-tree --no-commit-id --name-only -r $COMMIT_HASH)
+
+          # check if any of the modified files belongs to the specified input packages
+          if echo "$changed_files" | grep -Eq "^($package_names)/"; then
+            echo "has-changed-packages=true" >> $GITHUB_OUTPUT
+            exit 
+          fi
+         
+        done  
 
         # check if any of the modified files belongs to the specified input packages
-        if echo "$changed_files" | grep -Eq "^($package_names)/"; then
-          echo "has-changed-packages=true" >> $GITHUB_OUTPUT
-        else
-          echo "has-changed-packages=false" >> $GITHUB_OUTPUT
-        fi
+        echo "has-changed-packages=false" >> $GITHUB_OUTPUT
+

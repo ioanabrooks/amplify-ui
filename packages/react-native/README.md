@@ -1,4 +1,4 @@
-# Amplify UI
+# Amplify UI test workflow
 
 Amplify UI is an open-source UI library with cloud-connected components that are endlessly customizable, accessible, and can integrate into _any_ application. Amplify UI consists of:
 

@@ -2,6 +2,9 @@
 name: Check Changed Packages
 description: 'Checks whether any files in the specified packages were changed in the current PR'
 inputs:
+  pr_branch:
+    description: 'PR to check files against'
+    required: true
   packages:
     description: 'List of packages to check for changes, separated by new line'
     required: true
@@ -16,16 +19,13 @@ runs:
       id: check-changed-packages
       shell: bash
       env:
-        PR_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        PR_BRANCH: ${{ inputs.pr_branch }}
         PACKAGES: ${{ inputs.packages }}
       run: |
-        echo $PR_BRANCH
         # stores the names of changed packages
         changed_packages=()
         changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main..origin/$PR_BRANCH)
 
-        echo $changed_files
-        
         # concatenate input package names with pipe
         # input is on multiple lines so need :a;N;$!ba; to allow sed to read entire stream at once
         package_names=$(echo "$PACKAGES" | sed ':a;N;$!ba;s/\n/|/g')

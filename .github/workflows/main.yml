@@ -23,6 +23,7 @@ jobs:
         id: has-rn-changed-packages
         uses: ./.github/actions/changed-packages
         with:
+          pr_branch: ${{ github.event.pull_request.base.ref }}
           packages: |
             packages/react-native
             packages/react-core

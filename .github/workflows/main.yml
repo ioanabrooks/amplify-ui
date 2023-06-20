@@ -1,5 +1,4 @@
 name: Call Changed Packages
-
 on:
   pull_request:
     branches: [main]
@@ -14,6 +13,7 @@ jobs:
       - name: Checkout Amplify UI
         uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0 https://github.com/actions/checkout/commit/24cb9080177205b6e8c946b17badbe402adc938f
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ inputs.repository }}
           fetch-depth: 2
           persist-credentials: false
@@ -23,13 +23,13 @@ jobs:
         id: has-rn-changed-packages
         uses: ./.github/actions/changed-packages
         with:
+          pr_branch: ${{ github.event.pull_request.base.ref }}
           packages: |
             packages/react-native
             packages/react-core
             packages/react-core-notifications
             packages/ui
             packages/e2e
-
   output-results:
     needs: check-changed-packages
     runs-on: ubuntu-latest
